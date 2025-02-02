@@ -1,0 +1,87 @@
+.verify-email-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9fafb;
+    color: #333;
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: #0070f3;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.status {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.status p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.waiting {
+    background-color: #fff8e5;
+    color: #8a6d3b;
+    border: 1px solid #ffe8a1;
+}
+
+.success {
+    background-color: #e6f8e0;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+}
+
+.error {
+    background-color: #f8e6e6;
+    color: #a94442;
+    border: 1px solid #ebcccc;
+}
+
+.action-btn {
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #005bb5;
+}
+
+.footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #777;
+}

@@ -1,0 +1,19 @@
+/api/dev/login
+✅ API authentication & middleware (ensuring only authenticated developers can access routes).
+✅ Token-based authentication for user-related operations.
+✅ Enhancing API rate-limiting and security.
+
+/api/dev/logout
+✅ Session Management: If using JWT, you might also want to blacklist the token in the database/cache to prevent misuse.
+✅ Protect Routes: Ensure /api/dev/logout is only accessible when the user is authenticated.
+✅ Frontend Integration: Make sure the frontend clears any user session data when this API is called.
+
+/api/dev/delete
+✅ Frontend Handling: Redirect users to the login page after deletion.
+✅ Token Revocation (Optional): Consider maintaining a blacklist of revoked JWTs.
+✅ Rate Limiting (Optional): Prevent abuse by limiting account deletion attempts.
+
+/api/dev/profile
+✅ Frontend Handling: Ensure proper error handling if the token is invalid.
+✅ Middleware Integration (Optional): Implement middleware for authentication instead of calling DataFromJWT in every API.
+

@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@tailwind utilities;
+@tailwind base;
+@tailwind components;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Light theme */
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+/* Dark theme */
+.dark {
+  --background: #121212;
+  --foreground: #ffffff;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
