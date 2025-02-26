@@ -5,7 +5,7 @@ import "./globals.css";
 
 export default function Home() {
   return (
-    <div>
+    <div className="dark:bg-gray-900">
       {/* Toaster must be present in the app */}
       <Toaster />
 

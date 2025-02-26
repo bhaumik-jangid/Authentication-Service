@@ -21,14 +21,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" suppressHydrationWarning className="dark:bg-gray-900">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {/* Navbar */}
           <nav className="fixed top-0 left-0 right-0 bg-gray-300 bg-opacity-70 dark:bg-gray-800 dark:bg-opacity-70 p-4 flex justify-between items-center h-16 z-10 backdrop-blur">
@@ -41,10 +37,52 @@ export default function RootLayout({
             </div>
           </nav>
 
-          {/* Main content */}
-          <div className="">
+          {/* Main Content - Leaves Some Space for Footer */}
+          <main className="max-h-[90vh]"> {/* min-h-[85vh] keeps footer slightly visible */}
             {children}
-          </div>
+          </main>
+
+          {/* Footer - Always Slightly Visible */}
+          <footer className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 p-6 z-10">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+              {/* Branding Section */}
+              <div className="text-center md:text-left">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Secure Sign</h2>
+                <p className="text-sm">Secure authentication for developers.</p>
+                <p className="text-sm">© {new Date().getFullYear()} Secure Sign. All rights reserved.</p>
+              </div>
+
+              {/* Contact Section */}
+              <div className="mt-4 md:mt-0">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Contact Us/ Feedback</h3>
+                <a
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${process.env.MAILER_USER || "example.com"}&subject=Feedback&body=Hello,%20I%20have%20some%20feedback%20regarding%20Secure%20Sign.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm hover:text-blue-500"
+                >
+                  Email: support@{process.env.MAILER_USER || "example.com"}
+                </a>
+                <p className="text-sm">Phone: +1 (555) 123-4567</p>
+              </div>
+
+              {/* Social Media Links */}
+              <div className="mt-4 md:mt-0">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Follow Us</h3>
+                <div className="flex space-x-4 mt-1">
+                  <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-500">
+                    Twitter
+                  </a>
+                  <a href="https://github.com/bhaumik-jangid" target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-blue-500">
+                    GitHub
+                  </a>
+                  <a href="https://www.linkedin.com/in/bhaumik-jangid/" target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-blue-500">
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </ThemeProvider>
       </body>
     </html>

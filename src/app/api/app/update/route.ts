@@ -17,6 +17,14 @@ export async function PUT(request: NextRequest) {
             );
         }
 
+        const appExists = await App.findOne({appName});
+        if(appExists){
+            return NextResponse.json(
+                { message: "This app name is already registerd in our system" },
+                { status: 400 }
+            );
+        }
+
         const updatedApp = await App.findOneAndUpdate(
             { "appID": appID }, // Find the app by appId
             { 

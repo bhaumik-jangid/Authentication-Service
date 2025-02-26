@@ -12,12 +12,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const { username, email, password } = reqBody;
         const emailType = "DEV_VERIFY";
 
-        // Check if the developer already exists
-        const existingDev = await Dev.findOne({ email });
-
-        if (existingDev) {
+        // Check if the username already exists
+        const existingUsername = await Dev.findOne({ username });
+        if (existingUsername) {
             return NextResponse.json(
-                { message: "Username already in use" },
+                { message: "Username is already taken." },
+                { status: 400 }
+            );
+        }
+
+        // Check if the email is already in use
+        const existingEmail = await Dev.findOne({ email });
+        if (existingEmail) {
+            return NextResponse.json(
+                { message: "This email is already associated with an account." },
                 { status: 400 }
             );
         }
@@ -43,7 +51,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
         return NextResponse.json(
             {
-                message: "Developer account created successfully",
+                message: "Developer account created successfully. Please verify your email.",
                 success: true,
                 savedDev,
             },
@@ -53,7 +61,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     } catch (error) {
         console.error("Error in /api/dev/signup:", error);
         return NextResponse.json(
-            { error: (error as Error).message },
+            { message: "An unexpected error occurred. Please try again later." },
             { status: 500 }
         );
     }

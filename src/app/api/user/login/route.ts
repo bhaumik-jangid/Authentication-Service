@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
       id: user._id,
       username: user.username,
       email: user.email,
+      appName,
       userType,
     };
 
@@ -86,7 +87,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-
-
-// appname se app fetch then get redirectAfterLogin and 

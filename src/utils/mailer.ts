@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 interface EmailOptions {
     username: string;
     email: string;
-    emailType: "USER_VERIFY" | "USER_CONFIRM" | "DEV_VERIFY" | "DEV_CONFIRM" | "APP_CREATED" | "APP_DELETED";
+    emailType: "USER_VERIFY" | "USER_CONFIRM" | "DEV_VERIFY" | "DEV_CONFIRM" | "APP_CREATED" | "APP_DELETED" | "USER_DELETED" | "DEV_DELETED";
     userID: string;
     token?: string;
     appID?: string; 
@@ -23,22 +23,15 @@ export const sendEmail = async ({username, email, emailType, token,  appID, appN
             }
         });
 
-        const emailSubjects: Record<EmailOptions["emailType"], string> = {
-            "USER_VERIFY": "Verify Your Email",
-            "USER_CONFIRM": "Email Confirmation",
-            "DEV_VERIFY": "Developer Email Verification",
-            "DEV_CONFIRM": "Developer Email Confirmation",
-            "APP_CREATED": "Your App Has Been Created",
-            "APP_DELETED": "Your App Has Been Deleted",
-        };
-
         const mailOptions = {
             from: "support@secure-sign-auth.com", 
             to: email,
             subject: (emailType === "USER_VERIFY")? "Verify Your Email" : 
                      (emailType === "USER_CONFIRM")? "Email Confirmation" :
+                     (emailType === "USER_DELETED")? "Account Deleted" :
                      (emailType === "DEV_VERIFY")? "Developer Email Verification" :
                      (emailType === "DEV_CONFIRM")? "Developer Email Confirmation" :
+                     (emailType === "DEV_DELETED")? "Developer Accpunt Deleted" :
                      (emailType === "APP_CREATED")? "Your App Has Been Created" :
                      (emailType === "APP_DELETED")? "Your App Has Been Deleted" : 
                      "Error",
@@ -198,6 +191,69 @@ export const sendEmail = async ({username, email, emailType, token,  appID, appN
                                 </div>
                             </body>
                             `;
+                    case "USER_DELETED": 
+                        return `
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                                <style>
+                                    body {
+                                        font-family: Arial, sans-serif;
+                                        background-color: #f4f4f4;
+                                        color: #333333;
+                                        margin: 0;
+                                        padding: 0;
+                                    }
+                                    .email-container {
+                                        background-color: #ffffff;
+                                        max-width: 600px;
+                                        margin: 20px auto;
+                                        padding: 20px;
+                                        border-radius: 8px;
+                                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                    }
+                                    .header {
+                                        text-align: center;
+                                        background-color: #dc3545; /* Red color for account deletion */
+                                        color: #ffffff;
+                                        padding: 10px 0;
+                                        border-radius: 8px 8px 0 0;
+                                    }
+                                    .header h1 {
+                                        margin: 0;
+                                        font-size: 24px;
+                                    }
+                                    .content {
+                                        padding: 20px;
+                                        line-height: 1.6;
+                                    }
+                                    .footer {
+                                        text-align: center;
+                                        margin-top: 20px;
+                                        font-size: 12px;
+                                        color: #777777;
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                <div class="email-container">
+                                    <div class="header">
+                                        <h1>Account Deleted</h1>
+                                    </div>
+                                    <div class="content">
+                                        <p>Hello, ${username}</p>
+                                        <p>We are writing to inform you that your account associated with **${appName}** application has been permanently deleted.</p>
+                                        <p>If this was a mistake or you wish to regain access, please contact our support team immediately.</p>
+                                        <p>If you did not request this deletion, please reach out to us as soon as possible.</p>
+                                    </div>
+                                    <div class="footer">
+                                        <p>If you have any questions, feel free to contact our support team.</p>
+                                        <p>&copy; ${new Date().getFullYear()} Your Company. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </body>
+                            </html>
+                        `;
                     case "DEV_VERIFY":
                         return `
                             <!DOCTYPE html>
@@ -352,6 +408,70 @@ export const sendEmail = async ({username, email, emailType, token,  appID, appN
                             </body>
                             </html>
                             `;
+                    case "DEV_DELETED": 
+                        return `
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                                <style>
+                                    body {
+                                        font-family: Arial, sans-serif;
+                                        background-color: #f4f4f4;
+                                        color: #333333;
+                                        margin: 0;
+                                        padding: 0;
+                                    }
+                                    .email-container {
+                                        background-color: #ffffff;
+                                        max-width: 600px;
+                                        margin: 20px auto;
+                                        padding: 20px;
+                                        border-radius: 8px;
+                                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                    }
+                                    .header {
+                                        text-align: center;
+                                        background-color: #dc3545; /* Red color for account deletion */
+                                        color: #ffffff;
+                                        padding: 10px 0;
+                                        border-radius: 8px 8px 0 0;
+                                    }
+                                    .header h1 {
+                                        margin: 0;
+                                        font-size: 24px;
+                                    }
+                                    .content {
+                                        padding: 20px;
+                                        line-height: 1.6;
+                                    }
+                                    .footer {
+                                        text-align: center;
+                                        margin-top: 20px;
+                                        font-size: 12px;
+                                        color: #777777;
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                <div class="email-container">
+                                    <div class="header">
+                                        <h1>Developer Account Deleted</h1>
+                                    </div>
+                                    <div class="content">
+                                        <p>Hello, ${username}</p>
+                                        <p>We are writing to inform you that your **developer account** has been permanently deleted from our system.</p>
+                                        <p>As a result, all associated applications and user data linked to your account have also been removed.</p>
+                                        <p>If this was a mistake or you wish to regain access, please contact our support team immediately.</p>
+                                        <p>If you did not request this deletion, please reach out to us as soon as possible.</p>
+                                    </div>
+                                    <div class="footer">
+                                        <p>If you have any questions, feel free to contact our support team.</p>
+                                        <p>&copy; ${new Date().getFullYear()} Your Company. All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </body>
+                            </html>
+                        `;
                     case "APP_CREATED":
                         return `
                             <!DOCTYPE html>

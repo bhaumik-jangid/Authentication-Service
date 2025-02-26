@@ -11,6 +11,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const reqBody = await request.json();
     const { email, password } = reqBody;
     const userType = "developer";
+    let path = request.nextUrl.pathname;
+    console.log(path.split("/")[1]);
 
     const user = await Dev.findOne({ email });
     if (!user) {

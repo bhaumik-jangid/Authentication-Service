@@ -71,7 +71,6 @@ export async function POST(request: NextRequest) {
                 );
             }
         }
-        console.log("line 73 , emailType: ", emailType);
 
         // Handle DEV_VERIFY and DEV_CONFIRM
         if (emailType.startsWith("DEV_")) {
@@ -94,18 +93,6 @@ export async function POST(request: NextRequest) {
             if (emailType === "DEV_VERIFY" && dev.isVerified) {
                 return NextResponse.json(
                     { message: "Developer is already verified" },
-                    { status: 400 }
-                );
-            }
-        }
-
-        // Handle APP_CREATED and APP_DELETED
-        if (emailType === "APP_CREATED" || emailType === "APP_DELETED") {
-            dev = await Dev.findOne({ _id: developerID });
-
-            if (!dev) {
-                return NextResponse.json(
-                    { message: "Developer does not exist" },
                     { status: 400 }
                 );
             }

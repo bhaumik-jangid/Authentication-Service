@@ -12,10 +12,6 @@ export default async function DataFromJWT(req: NextRequest) {
             throw new Error("Invalid token");
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message);
-        } else {
-            throw new Error("An unknown error occurred");
-        }
+        console.log("An unknown error occurred");
     }
 }

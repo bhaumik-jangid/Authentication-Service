@@ -9,8 +9,16 @@ export async function POST(request: NextRequest) {
     try {
         // Extract dev ID from JWT token
         const user = await DataFromJWT(request);
+        if (!user) {
+            console.log("user: ", user);
+            return NextResponse.json(
+                { message: "Unauthorized: Invalid or missing token" },
+                { status: 401 }
+            );
+        }
         const userId = user.id;
         if (!userId) {
+            console.log("userId: ", userId);
             return NextResponse.json(
                 { message: "Unauthorized: Invalid or missing token" },
                 { status: 401 }
@@ -20,6 +28,7 @@ export async function POST(request: NextRequest) {
         // Delete developer account
         const deletedUser = await User.findByIdAndDelete(userId);
         if (!deletedUser) {
+            console.log("User account not found, deletion rolled back.");
             return NextResponse.json(
                 { message: "User account not found" },
                 { status: 404 }

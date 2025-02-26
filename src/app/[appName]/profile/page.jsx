@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useEffect, useState, use } from 'react';
 import Loader from "@/components/Loader";
@@ -9,7 +9,28 @@ export default function ProfilePage({params}) {
   const resolvedParams = use(params);
   const [response, setResponse] = useState({ status: 999, message: "" });
   const [data, setData] = useState("Nothing");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const path = usePathname();
+  const appName = path.split('/')[1];
+
+  useEffect(() => {
+    const checkAppExists = async () => {
+    try {
+        setLoading(true);
+        const res = await axios.post("/api/auth/check-app", { appName });
+        if (!res.data.exists) {
+            router.replace("/404");
+        }
+    } catch (error) {
+        console.error("API Error:", error);
+        router.replace("/404");
+    } finally {
+        setLoading(false);
+    }
+  };
+    checkAppExists();
+  }, [appName]);
 
   const getUserDetails = async () => {
     try {
@@ -72,7 +93,7 @@ export default function ProfilePage({params}) {
   }, []);
 
   return (
-    <div className="relative z-5 min-h-screen">
+    <div className="relative z-5 min-h-screen dark:bg-gray-900">
       {loading && (
         <div className="fixed inset-0 flex items-center dark:text-white justify-center bg-transparent z-5">
           <Loader />
